@@ -2,10 +2,173 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perhaps LLC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Perhaps</title>
+  <meta name="description" content="Perhaps.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:title" content="Perhaps">
+  <meta property="og:description" content="Perhaps.">
+  <meta property="og:url" content="https://perhaps.studio/">
+  <meta property="og:image" content="https://perhaps.studio/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root {
+      --bg: #000;
+      /* Glyph width: fits narrow phones and short laptop screens alike */
+      --g: min(62vw, 40svh, 420px);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; background: var(--bg); }
+    body {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap;
+    }
+    img { display: block; width: 100%; height: 100%; -webkit-user-drag: none; pointer-events: none; }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: calc(var(--g) * 0.2);
+      padding: 16px;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    main.ready { opacity: 1; }
+
+    /* ---- The face ---- */
+    .face {
+      position: relative;
+      width: var(--g);
+      aspect-ratio: 685 / 787;
+      cursor: pointer;
+    }
+    .layer { position: absolute; inset: 0; will-change: transform; }
+    .brow-huh, .brow-idle { position: absolute; inset: 0; transform-origin: 48% 14%; }
+    .brow-huh { transition: transform 0.45s cubic-bezier(.3, 1.6, .5, 1); }
+    .huh .brow-huh { transform: translateY(-9%) rotate(-7deg); transition-duration: 0.25s; }
+    .body-huh { position: absolute; inset: 0; transform-origin: 50% 90%;
+      transition: transform 0.5s cubic-bezier(.3, 1.5, .5, 1); }
+    .huh .body-huh { transform: rotate(-3deg) translateX(-1%); }
+
+    /* A small skeptical lift every so often */
+    .brow-idle { animation: idle 7s ease-in-out 2.5s infinite; }
+    @keyframes idle {
+      0%, 84%, 100% { transform: none; }
+      88%, 93%      { transform: translateY(-4%) rotate(-3deg); }
+    }
+
+    /* ---- The question-mark wordmark ---- */
+    .word {
+      position: relative;
+      width: calc(var(--g) * 0.82);
+      aspect-ratio: 1484 / 428;
+    }
+    .ch { position: absolute; top: 0; height: 100%; }
+    .ch:nth-child(1) { left: 1.685%;  width: 26.011%; }
+    .ch:nth-child(2) { left: 28.571%; width: 10.243%; }
+    .ch:nth-child(3) { left: 40.701%; width: 4.582%; }
+    .ch:nth-child(4) { left: 50.809%; width: 4.784%; }
+    .ch:nth-child(5) { left: 54.852%; width: 8.423%; }
+    .ch:nth-child(6) { left: 63.544%; width: 12.062%; }
+    .ch:nth-child(7) { left: 76.482%; width: 11.658%; }
+    .ch:nth-child(8) { left: 88.005%; width: 10.445%; }
+    .ch img { opacity: 0.86; }
+    /* When the face says "huh?", the marks get read left to right */
+    .huh .ch { animation: read 0.7s cubic-bezier(.3, 1.4, .5, 1) both; animation-delay: calc(var(--i) * 70ms); }
+    .huh .ch img { opacity: 1; transition: opacity .2s; }
+    @keyframes read {
+      0%   { transform: none; }
+      35%  { transform: translateY(-16%) rotate(-4deg); }
+      100% { transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .brow-idle, .huh .ch { animation: none; }
+      .brow-huh, .body-huh, main { transition: none; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Perhaps Studio</h1>
+  <h1 class="sr-only">Perhaps</h1>
+  <main id="stage" aria-hidden="true">
+    <div class="face" id="face">
+      <div class="layer" id="body"><div class="body-huh"><img src="assets/glyph-body.png" alt=""></div></div>
+      <div class="layer" id="brow"><div class="brow-huh"><div class="brow-idle"><img src="assets/glyph-brow.png" alt=""></div></div></div>
+    </div>
+    <div class="word">
+      <div class="ch" style="--i:0"><img src="assets/wm-0.png" alt=""></div>
+      <div class="ch" style="--i:1"><img src="assets/wm-1.png" alt=""></div>
+      <div class="ch" style="--i:2"><img src="assets/wm-2.png" alt=""></div>
+      <div class="ch" style="--i:3"><img src="assets/wm-3.png" alt=""></div>
+      <div class="ch" style="--i:4"><img src="assets/wm-4.png" alt=""></div>
+      <div class="ch" style="--i:5"><img src="assets/wm-5.png" alt=""></div>
+      <div class="ch" style="--i:6"><img src="assets/wm-6.png" alt=""></div>
+      <div class="ch" style="--i:7"><img src="assets/wm-7.png" alt=""></div>
+    </div>
+  </main>
+  <script>
+    (() => {
+      const stage = document.getElementById('stage');
+      const face = document.getElementById('face');
+      const body = document.getElementById('body');
+      const brow = document.getElementById('brow');
+      const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Fade in once every layer has loaded, so nothing pops in separately.
+      const imgs = [...stage.querySelectorAll('img')];
+      Promise.all(imgs.map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; })))
+        .then(() => stage.classList.add('ready'));
+
+      // "Huh?" — the brow shoots up and the marks get read.
+      let huhTimer;
+      function huh() {
+        stage.classList.remove('huh');
+        void stage.offsetWidth; // restart the animations
+        stage.classList.add('huh');
+        clearTimeout(huhTimer);
+        huhTimer = setTimeout(() => stage.classList.remove('huh'), 1300);
+      }
+      face.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') huh(); });
+      addEventListener('pointerdown', huh);
+
+      if (calm) return;
+
+      // The face leans toward your cursor or finger; the brow moves a bit more.
+      let tx = 0, ty = 0, x = 0, y = 0, lastMove = 0;
+      addEventListener('pointermove', e => {
+        const r = face.getBoundingClientRect();
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        tx = Math.max(-1, Math.min(1, (e.clientX - cx) / (innerWidth / 2)));
+        ty = Math.max(-1, Math.min(1, (e.clientY - cy) / (innerHeight / 2)));
+        lastMove = performance.now();
+      });
+      addEventListener('pointerleave', () => { tx = ty = 0; });
+      document.addEventListener('mouseleave', () => { tx = ty = 0; });
+
+      (function tick(now) {
+        if (now - lastMove > 4000) { tx *= 0.98; ty *= 0.98; } // drift home when idle
+        x += (tx - x) * 0.08;
+        y += (ty - y) * 0.08;
+        body.style.transform = `translate(${x * 2}%, ${y * 1.5}%) rotate(${x * 2}deg)`;
+        brow.style.transform = `translate(${x * 3.5}%, ${y * 2.5 - Math.max(0, -y) * 1.5}%) rotate(${x * 3}deg)`;
+        requestAnimationFrame(tick);
+      })(0);
+    })();
+  </script>
 </body>
 </html>
